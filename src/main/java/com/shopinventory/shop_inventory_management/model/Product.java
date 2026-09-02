@@ -31,6 +31,9 @@ public class Product {
 
     private String category;
 
+    @ManyToOne
+    private Supplier supplier;
+
     public Product(String name, Double price, Integer quantity, String category) {
         this.name = name;
         this.price = price;

@@ -34,7 +34,7 @@ public class SaleService {
         return saleRepository.save(sale);
     }
 
-    public List<Sale> getAllSale(){
+    public List<Sale> getAllSales(){
         return saleRepository.findAll();
     }
 }

@@ -2,7 +2,9 @@ package com.shopinventory.shop_inventory_management.service;
 
 
 import com.shopinventory.shop_inventory_management.model.Product;
+import com.shopinventory.shop_inventory_management.model.Supplier;
 import com.shopinventory.shop_inventory_management.repository.ProductRepository;
+import com.shopinventory.shop_inventory_management.repository.SupplierRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,12 +13,19 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final SupplierRepository supplierRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository,  SupplierRepository supplierRepository) {
         this.productRepository = productRepository;
+        this.supplierRepository = supplierRepository;
     }
 
     public Product addProduct(Product product) {
+        if (product.getSupplier() != null && product.getSupplier().getId() != null) {
+            Supplier supplier = supplierRepository.findById(product.getSupplier().getId())
+                    .orElseThrow(() -> new RuntimeException("Supplier not found with id: " + product.getSupplier().getId()));
+            product.setSupplier(supplier);
+        }
         return productRepository.save(product);
     }
 
